@@ -35,6 +35,7 @@
         lua << EOF
         require("lsp-format").setup{}
         require("lspconfig").purescriptls.setup{on_attach = require("lsp-format").on_attach}
+        require("lspconfig").rust_analyzer.setup{on_attach = require("lsp-format").on_attach}
         require("compe").setup {
           enabled = true;
           autocomplete = true;
@@ -71,6 +72,7 @@
         EOF
         set completeopt-=preview
         let g:neoformat_enabled_purescript = ['purstidy']
+        
         command Act lua vim.lsp.buf.code_action()
 
       '';
