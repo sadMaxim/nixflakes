@@ -31,6 +31,7 @@
         nnoremap <silent> <C-J> :Files<CR>
         nnoremap <C-S> :Buffers<CR>
         nnoremap <C-H> :Rg<CR>
+        nnoremap NF :NERDTreeFind<CR>
         cd /home/maxim/work/projects/cardano-wanchain-bridge
         lua << EOF
         require("lsp-format").setup{}
