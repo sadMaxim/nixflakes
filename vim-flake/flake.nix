@@ -37,7 +37,7 @@
         require("lsp-format").setup{}
         require("lspconfig").purescriptls.setup{on_attach = require("lsp-format").on_attach}
         require("lspconfig").rust_analyzer.setup{on_attach = require("lsp-format").on_attach}
-        require("lspconfig").pyright.setup{on_attach = require("lsp-format").on_attach}
+        require("lspconfig").pyright.setup{}
         require("compe").setup {
           enabled = true;
           autocomplete = true;
@@ -74,9 +74,11 @@
         EOF
         set completeopt-=preview
         let g:neoformat_enabled_purescript = ['purstidy']
-        
+        let g:neoformat_enabled_python = ['autopep8','yapf','docformatter']
+        let g:neoformat_basic_format_align = 1
+        let g:neoformat_basic_format_retab = 1
+        let g:neoformat_basic_format_trim = 1 
         command Act lua vim.lsp.buf.code_action()
-
       '';
 
     packages.myVimPackage = with pkgs.vimPlugins; {
