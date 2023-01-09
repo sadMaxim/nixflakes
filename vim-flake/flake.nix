@@ -32,11 +32,12 @@
         nnoremap <C-S> :Buffers<CR>
         nnoremap <C-H> :Rg<CR>
         nnoremap NF :NERDTreeFind<CR>
-        cd /home/maxim/work/projects/cardano-wanchain-bridge
+        cd /home/maxim/work/projects/datatailr
         lua << EOF
         require("lsp-format").setup{}
         require("lspconfig").purescriptls.setup{on_attach = require("lsp-format").on_attach}
         require("lspconfig").rust_analyzer.setup{on_attach = require("lsp-format").on_attach}
+        require("lspconfig").pyright.setup{on_attach = require("lsp-format").on_attach}
         require("compe").setup {
           enabled = true;
           autocomplete = true;
