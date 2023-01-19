@@ -74,7 +74,7 @@
         EOF
         set completeopt-=preview
         let g:neoformat_enabled_purescript = ['purstidy']
-        let g:neoformat_enabled_python = ['autopep8','yapf','docformatter']
+        let g:neoformat_enabled_python = ['autopep8']
         let g:neoformat_basic_format_align = 1
         let g:neoformat_basic_format_retab = 1
         let g:neoformat_basic_format_trim = 1 
