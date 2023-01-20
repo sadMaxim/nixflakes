@@ -19,18 +19,24 @@
         python = pkgs.python310;
         torch = pkgs.python310Packages.torch;
         torchCuda = pkgs.python310Packages.torchWithCuda;
-        shellHook = ''
+        shellHook1 = ''
             export CUDA_PATH=${cudatoolkit.lib}
             export LD_LIBRARY_PATH=${cudatoolkit.lib}/lib:${nvidia_x11}/lib
             export EXTRA_LDFLAGS="-l/lib -l${nvidia_x11}/lib"
             export EXTRA_CCFLAGS="-i/usr/include"
+            python -c "import torch; print(torch.cuda.is_available())"
+
+          '';
+        shellHook = ''
+            python -c "import torch; print(torch.cuda.is_available())"
+
           '';
       in
       {
         devShell = pkgs.mkShell {
           #buildInputs = [nvidia_x11 cudatoolkit];
-          buildInputs = [python torchCuda];
-          #inherit shellHook;  
+          buildInputs = [torchCuda];
+          inherit shellHook;  
         };
       }; in with utils.lib; eachSystem defaultSystems out;
 }
