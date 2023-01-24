@@ -12,7 +12,12 @@
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
-  let pkgs = nixpkgs.legacyPackages.x86_64-linux;
+  #let pkgs = nixpkgs.legacyPackages.x86_64-linux;
+  let pkgs = import nixpkgs {
+	system = "x86_64-linux";
+	config.allowUnfree = true;
+}; 
+
   nvim = pkgs.neovim.override {
 
     configure = {
@@ -38,6 +43,7 @@
         require("lspconfig").purescriptls.setup{on_attach = require("lsp-format").on_attach}
         require("lspconfig").rust_analyzer.setup{on_attach = require("lsp-format").on_attach}
         require("lspconfig").pyright.setup{}
+
         require("compe").setup {
           enabled = true;
           autocomplete = true;
@@ -79,6 +85,7 @@
         let g:neoformat_basic_format_retab = 1
         let g:neoformat_basic_format_trim = 1 
         command Act lua vim.lsp.buf.code_action()
+
       '';
 
     packages.myVimPackage = with pkgs.vimPlugins; {
@@ -96,6 +103,9 @@
         nvim-compe
         lsp-format-nvim
         neoformat
+        nvim-cmp
+        cmp-tabnine
+	lspkind-nvim
         
       ];
     };
