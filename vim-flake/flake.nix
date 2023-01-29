@@ -43,7 +43,23 @@
         require("lspconfig").purescriptls.setup{on_attach = require("lsp-format").on_attach}
         require("lspconfig").rust_analyzer.setup{on_attach = require("lsp-format").on_attach}
         require("lspconfig").pyright.setup{}
-
+        require'cmp'.setup {
+         sources = {
+         	{ name = 'cmp_tabnine' },
+         },
+        }
+        local tabnine = require('cmp_tabnine.config')
+        
+        tabnine:setup({
+        max_lines = 1000,
+        max_num_results = 20,
+        sort = true,
+        run_on_every_keystroke = true,
+        snippet_placeholder = '..',
+        ignored_file_types = {
+        },
+        show_prediction_strength = false
+        })
         require("compe").setup {
           enabled = true;
           autocomplete = true;
