@@ -26,6 +26,7 @@
         set encoding=utf8
         set mouse=a
         set clipboard+=unnamedplus
+        nmap <C-_> gcc
         imap jj <Esc>
         set hidden
         nnoremap <C-N> :bnext<CR>
@@ -43,6 +44,7 @@
         require("lspconfig").purescriptls.setup{on_attach = require("lsp-format").on_attach}
         require("lspconfig").rust_analyzer.setup{on_attach = require("lsp-format").on_attach}
         require("lspconfig").pyright.setup{}
+        require('nvim_comment').setup({comment_empty = false})
         require'cmp'.setup {
          sources = {
          	{ name = 'cmp_tabnine' },
@@ -122,41 +124,12 @@
         nvim-cmp
         cmp-tabnine
 	lspkind-nvim
+	nvim-comment
         
       ];
     };
     };
   }; 
-  vim1 = pkgs.vim_configurable.customize {
-    name = "vim1";
-    vimrcConfig.customRC= ''
-      set number
-      set encoding=utf8
-      imap jj <Esc>
-      set hidden
-      nnoremap <C-N> :bnext<CR>
-      nnoremap <C-P> :bprev<CR>
-      tnoremap <Esc><Esc> <C-\><C-n>
-      nnoremap <C-K> :ter ++curwin<CR>
-      nnoremap <Del> :bd!<CR> 
-      nnoremap <silent> <C-J> :Files<CR>
-      nnoremap <C-S> :Buffers<CR>
-      nnoremap <C-H> :Rg<CR>
-      set mouse=a
-    '';
-    vimrcConfig.packages.myVimPackage = with pkgs.vimPlugins; {
-      start=[
-        fzf-vim
-        vim-airline 
-        YouCompleteMe
-        vim-polyglot
-        vim-fugitive
-        haskell-vim
-        coc-nvim
-        direnv-vim
-      ];
-    };
-  };
   code = pkgs.vscode-with-extensions.override {
     vscodeExtensions = with pkgs.vscode-extensions; [
       haskell.haskell
@@ -171,7 +144,6 @@
 
   in
   {
-    packages.x86_64-linux.myvim = vim1;
     packages.x86_64-linux.code = code;
     packages.x86_64-linux.nvim = nvim;
     packages.x86_64-linux.emacs = emacs;
