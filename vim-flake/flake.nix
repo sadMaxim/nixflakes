@@ -29,18 +29,23 @@
         nmap <C-_> gcc
         imap jj <Esc>
         set hidden
+        highlight Pmenu ctermbg=gray guibg=dark
+
         nnoremap <C-N> :bnext<CR>
         nnoremap <C-P> :bprev<CR>
         tnoremap <Esc> <C-\><C-n>
-        nnoremap <C-K> :terminal<CR>
         nnoremap <Del> :bd!<CR> 
-        nnoremap <silent> <C-J> :Files<CR>
-        nnoremap <C-S> :Buffers<CR>
-        nnoremap <C-H> :Rg<CR>
-        nnoremap NF :NERDTreeFind<CR>
+        nnoremap NF :NvimTreeFindFile<CR>
         nnoremap HP :HopWord<CR>
+        nnoremap <leader>ff <cmd>Telescope find_files<CR>
+        nnoremap <leader>fg <cmd>Telescope live_grep<CR>
+        nnoremap <leader>fb <cmd>Telescope buffers<CR>
+        nnoremap <leader>fh <cmd>Telescope help_tags<CR>
+        nnoremap <Leader>f :lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ winblend = 10 }))<cr>
+
         cd /home/maxim/work/projects/datatailr
         lua << EOF
+        require('lualine').setup({options = {theme = 'gruvbox'}})
         require("lsp-format").setup{}
         require("lspconfig").purescriptls.setup{on_attach = require("lsp-format").on_attach}
         require("lspconfig").rust_analyzer.setup{on_attach = require("lsp-format").on_attach}
@@ -85,7 +90,71 @@
          }),
         }
         
-        --vim.cmd("colorscheme nightfox")
+        --nvim-tree 
+        
+        -- disable netrw at the very start of your init.lua (strongly advised)
+        vim.g.loaded_netrw = 1
+        vim.g.loaded_netrwPlugin = 1
+        
+        -- set termguicolors to enable highlight groups
+        vim.opt.termguicolors = true
+        
+        -- empty setup using defaults
+        require("nvim-tree").setup()
+        
+        -- OR setup with some options
+        require("nvim-tree").setup({
+          sort_by = "case_sensitive",
+          renderer = {
+            group_empty = true,
+          },
+          filters = {
+            dotfiles = true,
+          },
+        })
+
+        require'nvim-treesitter.configs'.setup {
+          -- A list of parser names, or "all" (the five listed parsers should always be installed)
+          -- ensure_installed = { "c","python", "lua", "vim", "help", "query" },
+        
+          -- Install parsers synchronously (only applied to `ensure_installed`)
+          sync_install = false,
+        
+          -- Automatically install missing parsers when entering buffer
+          -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+          auto_install = false,
+        
+          -- List of parsers to ignore installing (for "all")
+          -- ignore_install = { "javascript" },
+        
+          ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+          -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+        
+          highlight = {
+            enable = true,
+        
+            -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+            -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+            -- the name of the parser)
+            -- list of language that will be disabled
+            -- disable = { "c", "rust" },
+            -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+            disable = function(lang, buf)
+                local max_filesize = 100 * 1024 -- 100 KB
+                local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+                if ok and stats and stats.size > max_filesize then
+                    return true
+                end
+            end,
+        
+            -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+            -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+            -- Using this option may slow down your editor, and you may see some duplicate highlights.
+            -- Instead of true it can also be a list of languages
+            additional_vim_regex_highlighting = false,
+          },
+        }
+
         EOF
         set completeopt-=preview
         let g:neoformat_enabled_purescript = ['purstidy']
@@ -95,18 +164,16 @@
         let g:neoformat_basic_format_trim = 1 
         command Act lua vim.lsp.buf.code_action()
 
+
       '';
 
     packages.myVimPackage = with pkgs.vimPlugins; {
       start=[
-        fzf-vim
-        vim-airline 
         direnv-vim
 	hop-nvim
         nvim-lspconfig
-	nvim-treesitter
-        nerdtree
-        vim-surround
+	nvim-treesitter.withAllGrammars
+	nvim-tree-lua
         lsp-format-nvim
         neoformat
         nvim-cmp
@@ -115,7 +182,8 @@
         cmp-tabnine
 	lspkind-nvim
 	nvim-comment
-	nightfox-nvim
+	telescope-nvim
+        lualine-nvim
       ];
     };
     };
