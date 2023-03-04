@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = github:nixos/nixpkgs/6dccdc458512abce8d19f74195bb20fdb067df50;
+    nixpkgs.url = github:nixos/nixpkgs;
     utils.url = "github:numtide/flake-utils";
     nixgl.url = "github:guibou/nixGL";
   };
