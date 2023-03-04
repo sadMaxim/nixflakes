@@ -26,6 +26,7 @@
         set encoding=utf8
         set mouse=a
         set clipboard+=unnamedplus
+	set tabstop=4
         nmap <C-_> gcc
         imap jj <Esc>
         set hidden
