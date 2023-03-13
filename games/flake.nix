@@ -1,17 +1,17 @@
 {
   inputs = {
-    nixpkgs.url = github:nixos/nixpkgs/6dccdc458512abce8d19f74195bb20fdb067df50;
+    nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
     utils.url = "github:numtide/flake-utils";
     nixgl.url = "github:guibou/nixGL";
-    /* nix-gaming.url = github:fufexan/nix-gaming; */
+    nix-gaming.url = github:fufexan/nix-gaming;
   };
 
-  outputs = { self, nixpkgs, utils, nixgl }:
+  outputs = { self, nixpkgs, utils, nixgl, nix-gaming }:
     let out = system:
       let
         pkgs = import nixpkgs {
           inherit system;
-          #config.cudaSupport = true;
+          config.cudaSupport = true;
           config.allowUnfree = true;
           overlays = [nixgl.overlay];
         };
@@ -19,13 +19,14 @@
         inherit (pkgs.linuxPackages) nvidia_x11;
         python = pkgs.python310;
         torch = pkgs.python310Packages.torch;
+	wine = nix-gaming.packages.${pkgs.hostPlatform.system}.wine-ge;
         torchCuda = pkgs.python310Packages.torchWithCuda;
         shellHook = ''
             export CUDA_PATH=${cudatoolkit.lib}
             export LD_LIBRARY_PATH=${cudatoolkit.lib}/lib:${nvidia_x11}/lib
             export EXTRA_LDFLAGS="-l/lib -l${nvidia_x11}/lib"
             export EXTRA_CCFLAGS="-i/usr/include"
-            python -c "import torch; print(torch.cuda.is_available())"
+            # python -c "import torch; print(torch.cuda.is_available())"
 
           '';
         shellHook1 = ''
@@ -38,8 +39,9 @@
       in
       {
         devShell = pkgs.mkShell {
-          #buildInputs = [nvidia_x11 cudatoolkit];
-          buildInputs = [torchCuda];
+          # buildInputs = [nvidia_x11 cudatoolkit torchCuda];
+          # buildInputs = [nvidia_x11 cudatoolkit  pkgs.winePackages.unstableFull];
+          buildInputs = [nvidia_x11 cudatoolkit  wine];
           inherit shellHook;  
         };
       packages.default = pkgs.hello; 
