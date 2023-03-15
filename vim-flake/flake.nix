@@ -37,19 +37,23 @@
         nnoremap <Del> :bd!<CR> 
         nnoremap NF :NvimTreeFindFile<CR>
         nnoremap HP :HopWord<CR>
+        nnoremap <C-j> <cmd>Telescope find_files<CR>
+        nnoremap <C-b> <cmd>Telescope buffers<CR>
+        nnoremap <C-g> <cmd>Telescope live_grep<CR>
         nnoremap <leader>ff <cmd>Telescope find_files<CR>
         nnoremap <leader>fg <cmd>Telescope live_grep<CR>
         nnoremap <leader>fb <cmd>Telescope buffers<CR>
         nnoremap <leader>fh <cmd>Telescope help_tags<CR>
         nnoremap <Leader>f :lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ winblend = 10 }))<cr>
 
-        cd /home/maxim/work/projects/datatailr
         lua << EOF
         require('lualine').setup({options = {theme = 'gruvbox'}})
         require("lsp-format").setup{}
         require("lspconfig").purescriptls.setup{on_attach = require("lsp-format").on_attach}
         require("lspconfig").rust_analyzer.setup{on_attach = require("lsp-format").on_attach}
         require("lspconfig").pyright.setup{}
+        require("lspconfig").rnix.setup{}
+        require'telescope'.load_extension('fzf')
         require'hop'.setup()
         require('nvim_comment').setup({comment_empty = false})
         local tabnine = require('cmp_tabnine.config')
@@ -160,20 +164,21 @@
     packages.myVimPackage = with pkgs.vimPlugins; {
       start=[
         direnv-vim
-	hop-nvim
+        hop-nvim
         nvim-lspconfig
-	nvim-treesitter.withAllGrammars
-	nvim-tree-lua
+        nvim-treesitter.withAllGrammars
+        nvim-tree-lua
         lsp-format-nvim
         neoformat
         nvim-cmp
         cmp-nvim-lsp
         nvim-snippy
         cmp-tabnine
-	lspkind-nvim
-	nvim-comment
-	telescope-nvim
+        lspkind-nvim
+        nvim-comment
+        telescope-nvim
         lualine-nvim
+        telescope-fzf-native-nvim
       ];
     };
     };
@@ -194,6 +199,7 @@
   {
     packages.x86_64-linux.code = code;
     packages.x86_64-linux.nvim = nvim;
+    packages.x86_64-linux.rnix-lsp = pkgs.rnix-lsp;
     packages.x86_64-linux.emacs = emacs;
   };
 }

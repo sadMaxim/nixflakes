@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = github:nixos/nixpkgs;
+    nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
     utils.url = "github:numtide/flake-utils";
     nixgl.url = "github:guibou/nixGL";
   };
@@ -10,7 +10,7 @@
       let
         pkgs = import nixpkgs {
           inherit system;
-          #config.cudaSupport = true;
+          config.cudaSupport = true;
           config.allowUnfree = true;
           overlays = [nixgl.overlay];
         };
@@ -38,7 +38,8 @@
       {
         devShell = pkgs.mkShell {
           #buildInputs = [nvidia_x11 cudatoolkit];
-          buildInputs = [torchCuda];
+          /* buildInputs = [torchCuda magma]; */
+          buildInputs = [pkgs.magma];
           inherit shellHook;  
         };
       }; in with utils.lib; eachSystem defaultSystems out;
