@@ -47,6 +47,7 @@
         nnoremap <Leader>f :lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ winblend = 10 }))<cr>
 
         lua << EOF
+        vim.wo.relativenumber = true
         require('lualine').setup({options = {theme = 'gruvbox'}})
         require("lsp-format").setup{}
         require("lspconfig").purescriptls.setup{on_attach = require("lsp-format").on_attach}
@@ -158,6 +159,7 @@
         let g:neoformat_basic_format_align = 1
         let g:neoformat_basic_format_retab = 1
         let g:neoformat_basic_format_trim = 1 
+        let g:vimspector_enable_mappings = 'HUMAN'
         command Act lua vim.lsp.buf.code_action()
       '';
 
@@ -179,6 +181,8 @@
         telescope-nvim
         lualine-nvim
         telescope-fzf-native-nvim
+        vimspector
+
       ];
     };
     };

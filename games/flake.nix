@@ -13,7 +13,7 @@
           inherit system;
           config.cudaSupport = true;
           config.allowUnfree = true;
-          overlays = [nixgl.overlay];
+          /* overlays = [nixgl.overlay]; */
         };
         inherit (pkgs.cudaPackages) cudatoolkit;
         inherit (pkgs.linuxPackages) nvidia_x11;
@@ -45,5 +45,9 @@
           inherit shellHook;  
         };
       packages.default = pkgs.hello; 
+      packages.chrome = pkgs.google-chrome;
+      packages.wine = pkgs.wineWowPackages.waylandFull;
+      packages.codium = pkgs.vscodium;
+      /* packages.nixgl = nixgl.packages.x86_64-linux.default; */
       }; in with utils.lib; eachSystem defaultSystems out;
 }
