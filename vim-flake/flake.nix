@@ -49,11 +49,12 @@
         lua << EOF
         vim.wo.relativenumber = true
         require('lualine').setup({options = {theme = 'gruvbox'}})
-        require("lsp-format").setup{}
-        require("lspconfig").purescriptls.setup{on_attach = require("lsp-format").on_attach}
-        require("lspconfig").rust_analyzer.setup{on_attach = require("lsp-format").on_attach}
-        require("lspconfig").pyright.setup{}
-        require("lspconfig").rnix.setup{}
+        local on_attach = require("lsp-format").setup{}
+        local lspconfig = require("lspconfig")
+        lspconfig.purescriptls.setup{}
+        lspconfig.pyright.setup{}
+        lspconfig.rnix.setup{}
+        lspconfig.rust_analyzer.setup{}
         require'telescope'.load_extension('fzf')
         require'hop'.setup()
         require('nvim_comment').setup({comment_empty = false})
@@ -103,9 +104,6 @@
         
         -- set termguicolors to enable highlight groups
         vim.opt.termguicolors = true
-        
-        -- empty setup using defaults
-        require("nvim-tree").setup()
         
         -- OR setup with some options
         require("nvim-tree").setup({
@@ -182,6 +180,7 @@
         lualine-nvim
         telescope-fzf-native-nvim
         vimspector
+        completion-nvim
 
       ];
     };
