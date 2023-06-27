@@ -12,7 +12,6 @@
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
-  #let pkgs = nixpkgs.legacyPackages.x86_64-linux;
   let pkgs = import nixpkgs {
 	system = "x86_64-linux";
 	config.allowUnfree = true;
@@ -57,7 +56,7 @@
         lspconfig.rust_analyzer.setup{}
         require'telescope'.load_extension('fzf')
         require'hop'.setup()
-        require('nvim_comment').setup({comment_empty = false})
+        require('Comment').setup()
         local tabnine = require('cmp_tabnine.config')
         tabnine:setup({
         max_lines = 1000,
@@ -175,13 +174,12 @@
         nvim-snippy
         cmp-tabnine
         lspkind-nvim
-        nvim-comment
+        comment-nvim
         telescope-nvim
         lualine-nvim
         telescope-fzf-native-nvim
         vimspector
         completion-nvim
-
       ];
     };
     };
