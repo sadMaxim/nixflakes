@@ -6,8 +6,7 @@
 
 
     flake-compat = {
-      url = "github:edolstra/flake-compat";
-      flake = false;
+      url = "github:edolstra/flake-compat"; flake = false;
     };
   };
 
@@ -95,25 +94,15 @@
          }),
         }
         
-        --nvim-tree 
-        
-        -- disable netrw at the very start of your init.lua (strongly advised)
+        --nvim-tree
+        -- disable netrw at the very start of your init.lua
         vim.g.loaded_netrw = 1
         vim.g.loaded_netrwPlugin = 1
-        
         -- set termguicolors to enable highlight groups
         vim.opt.termguicolors = true
+        -- empty setup using defaults
+        require("nvim-tree").setup()
         
-        -- OR setup with some options
-        require("nvim-tree").setup({
-          sort_by = "case_sensitive",
-          renderer = {
-            group_empty = true,
-          },
-          filters = {
-            dotfiles = true,
-          },
-        })
 
         require'nvim-treesitter.configs'.setup({
           -- A list of parser names, or "all" (the five listed parsers should always be installed)
@@ -151,12 +140,14 @@
         })
         EOF
         set completeopt-=preview
-        let g:neoformat_enabled_purescript = ['purstidy']
-        let g:neoformat_enabled_python = ['autopep8']
         let g:neoformat_basic_format_align = 1
         let g:neoformat_basic_format_retab = 1
         let g:neoformat_basic_format_trim = 1 
         let g:vimspector_enable_mappings = 'HUMAN'
+        let g:neoformat_enabled_purescript = ['purstidy']
+        let g:neoformat_enabled_python = ['autopep8']
+        let g:neoformat_rust_rustfmt = {'exe': 'rustfmt', 'args': ['--edition=2021'],  'stdin': 1,  'replace': 1  }
+        let g:neoformat_enabled_rust = ['rustfmt']
         command Act lua vim.lsp.buf.code_action()
       '';
 
@@ -180,6 +171,7 @@
         telescope-fzf-native-nvim
         vimspector
         completion-nvim
+        nvim-web-devicons
       ];
     };
     };
