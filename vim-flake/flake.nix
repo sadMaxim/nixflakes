@@ -1,14 +1,13 @@
 {
   description = "myvim";
+  
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-
-
-    flake-compat = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable"; flake-compat = {
       url = "github:edolstra/flake-compat"; flake = false;
     };
   };
+  
 
   outputs = { self, nixpkgs, ... }@inputs:
   let pkgs = import nixpkgs {
@@ -43,16 +42,29 @@
         nnoremap <leader>fb <cmd>Telescope buffers<CR>
         nnoremap <leader>fh <cmd>Telescope help_tags<CR>
         nnoremap <Leader>f :lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ winblend = 10 }))<cr>
-
+         
         lua << EOF
         vim.wo.relativenumber = true
         require('lualine').setup({options = {theme = 'gruvbox'}})
-        local on_attach = require("lsp-format").setup{}
+        require('lsp-format').setup {}
         local lspconfig = require("lspconfig")
-        lspconfig.purescriptls.setup{}
-        lspconfig.pyright.setup{}
-        lspconfig.rnix.setup{}
-        lspconfig.rust_analyzer.setup{}
+        local capabilities = require("cmp_nvim_lsp").default_capabilities()
+        lspconfig.purescriptls.setup{on_attach = require('lsp-format').on_attach}
+        lspconfig.hls.setup{capabilities = capabilities}
+        lspconfig.pyright.setup{capabilities = capabilities}
+        lspconfig.nixd.setup{}
+        lspconfig.gopls.setup{}
+        lspconfig.terraformls.setup {on_attach = require('lsp-format').on_attach}
+        lspconfig.tflint.setup {on_attach = require('lsp-format').on_attach}
+        lspconfig.rust_analyzer.setup{capabilities = capabilities}
+        lspconfig.tsserver.setup{capabilities = capabilities}
+        lspconfig.svelte.setup{capabilities = capabilities}
+        lspconfig.cssls.setup{}
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        capabilities.textDocument.completion.completionItem.snippetSupport = true
+        lspconfig.html.setup {
+          capabilities = capabilities,
+        }
         require'telescope'.load_extension('fzf')
         require'hop'.setup()
         require('Comment').setup()
@@ -101,7 +113,9 @@
         -- set termguicolors to enable highlight groups
         vim.opt.termguicolors = true
         -- empty setup using defaults
-        require("nvim-tree").setup()
+        require("nvim-tree").setup{
+        disable_netrw = true,
+        }
         
 
         require'nvim-treesitter.configs'.setup({
@@ -163,6 +177,7 @@
         nvim-cmp
         cmp-nvim-lsp
         nvim-snippy
+        vim-vsnip
         cmp-tabnine
         lspkind-nvim
         comment-nvim
@@ -172,6 +187,7 @@
         vimspector
         completion-nvim
         nvim-web-devicons
+        purescript-vim
       ];
     };
     };
@@ -187,12 +203,29 @@
     ];
   };
   emacs = pkgs.emacs;
+  html-lsp = pkgs.mkYarnPackage rec {
+  name = "vscode-html-languageservice";
+  src = pkgs.fetchFromGitHub{
+    owner = "microsoft";
+    repo = name;
+    rev = "30cb945d290beee2f3f23ff105dc4043d761d731";
+    hash = "sha256-TNMzxy1LEHCI/ATuxX/oywddKjLQjVMDA0/ueRIf/7c=";
+    };
+  npmDepsHash = "";
+  };
 
   in
   {
     packages.x86_64-linux.code = code;
     packages.x86_64-linux.nvim = nvim;
+    packages.x86_64-linux.html-server = html-lsp;
     packages.x86_64-linux.rnix-lsp = pkgs.rnix-lsp;
     packages.x86_64-linux.emacs = emacs;
+    packages.x86_64-linux.pyright = pkgs.nodePackages.pyright;
+    packages.x86_64-linux.rust-analyzer = pkgs.rust-analyzer;
+    packages.x86_64-linux.sveltels = pkgs.nodePackages.svelte-language-server;
+    packages.x86_64-linux.terraform-ls= pkgs.terraform-ls;
+    packages.x86_64-linux.tflint= pkgs.tflint;
+    packages.x86_64-linux.cssls = pkgs.nodePackages.vscode-css-languageserver-bin;
   };
 }

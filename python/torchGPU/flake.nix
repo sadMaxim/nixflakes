@@ -1,8 +1,7 @@
 {
   inputs = {
     nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
-    utils.url = "github:numtide/flake-utils";
-    nixgl.url = "github:guibou/nixGL";
+    utils.url = "github:numtide/flake-utils"; nixgl.url = "github:guibou/nixGL";
   };
 
   outputs = { self, nixpkgs, utils, nixgl }:
