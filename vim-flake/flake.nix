@@ -42,6 +42,7 @@
         nnoremap <leader>fb <cmd>Telescope buffers<CR>
         nnoremap <leader>fh <cmd>Telescope help_tags<CR>
         nnoremap <Leader>f :lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ winblend = 10 }))<cr>
+        nnoremap <silent> K :lua vim.lsp.buf.hover()<CR>
          
         lua << EOF
         vim.wo.relativenumber = true
@@ -65,7 +66,11 @@
         lspconfig.html.setup {
           capabilities = capabilities,
         }
-        require'telescope'.load_extension('fzf')
+        require'telescope'.setup{
+         extensions = {
+         fzf = {}
+         }
+        }
         require'hop'.setup()
         require('Comment').setup()
         local tabnine = require('cmp_tabnine.config')
