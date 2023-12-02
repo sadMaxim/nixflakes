@@ -15,7 +15,21 @@
 	config.allowUnfree = true;
 }; 
 
-  nvim = pkgs.neovim.override {
+  nvim =
+  let
+    aiken-nvim = pkgs.vimUtils.buildVimPlugin {
+    pname = "aiken-nvim";
+    version = "0.0.1";
+    src = pkgs.fetchFromGitHub {
+      owner = "aiken-lang";
+      repo = "editor-integration-nvim";
+      rev = "259203266da4ef367a4a41baa60fe49177d55598";
+      sha256 = "sha256-vlhqunKmQTUGPCPq3sSW3QOKJgnAwQdFnGzWKEjGNzE=";
+    };
+  };
+
+  in
+  pkgs.neovim.override {
 
     configure = {
       customRC= ''
@@ -193,6 +207,7 @@
         completion-nvim
         nvim-web-devicons
         purescript-vim
+        aiken-nvim
       ];
     };
     };
