@@ -75,6 +75,7 @@
         lspconfig.tsserver.setup{capabilities = capabilities}
         lspconfig.svelte.setup{capabilities = capabilities}
         lspconfig.cssls.setup{}
+        lspconfig.aiken.setup{}
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities.textDocument.completion.completionItem.snippetSupport = true
         lspconfig.html.setup {
