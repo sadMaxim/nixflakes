@@ -135,6 +135,7 @@
         -- empty setup using defaults
         require("nvim-tree").setup{
         disable_netrw = true,
+        git = {enable = true, timeout = 1000},
         }
         
 
