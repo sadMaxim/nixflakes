@@ -134,8 +134,9 @@
         vim.opt.termguicolors = true
         -- empty setup using defaults
         require("nvim-tree").setup{
-        disable_netrw = true,
-        git = {enable = true, timeout = 1000},
+          disable_netrw = true,
+          git = {enable = true, timeout = 1000},
+          renderer = {indent_width = 3}
         }
         
 
