@@ -57,6 +57,7 @@
         nnoremap <leader>fh <cmd>Telescope help_tags<CR>
         nnoremap <Leader>f :lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ winblend = 10 }))<cr>
         nnoremap <silent> K :lua vim.lsp.buf.hover()<CR>
+        nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
          
         lua << EOF
         vim.wo.relativenumber = true
