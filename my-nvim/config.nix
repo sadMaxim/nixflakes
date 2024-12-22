@@ -10,6 +10,7 @@
     direnv.enable = true;
     hop.enable = true;
     comment.enable = true;
+    lualine.enable = true;
 
     dap.enable = true;
     dap.extensions.dap-python.enable = true;

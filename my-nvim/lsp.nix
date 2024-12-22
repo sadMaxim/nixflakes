@@ -11,7 +11,8 @@
         # purescriptls.enable = true;
         # rust_analyzer.enable = true;
         # gopls.enable = true;
-        # hls.enable = true;
+        hls.enable = true;
+        hls.installGhc = false;
         # svelte.enable = true;
         # aiken.enable = true;
         # ts_ls.enable = true;
