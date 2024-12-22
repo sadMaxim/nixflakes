@@ -9,6 +9,11 @@
     };
     direnv.enable = true;
     hop.enable = true;
+    comment.enable = true;
+
+    dap.enable = true;
+    dap.extensions.dap-python.enable = true;
+    dap.extensions.dap-ui.enable = true;
 
 
     telescope.enable = true;
@@ -21,7 +26,6 @@
       git.timeout = 2000;
     };
     nvim-autopairs.enable = true;
-    # none-ls.enable = true;
     lazygit.enable = true;
   };
 
@@ -104,6 +108,11 @@
     key = "gd";
     action = ":lua vim.lsp.buf.definition()<CR>";
    }
+   # {
+   #  mode = "n"; 
+   #  key = "<C-m>";
+   #  action = "gcc";
+   # }
   ];
 
   globalOpts = {
