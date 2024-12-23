@@ -1,5 +1,5 @@
 {
- # plugins.lsp.servers.pyright.enable = true;
+
     plugins.lsp = {
       enable = true;
       servers = {
@@ -8,14 +8,26 @@
         pyright.package = null;
 
         nixd.enable = true;
-        # purescriptls.enable = true;
-        # rust_analyzer.enable = true;
-        # gopls.enable = true;
+
+        purescriptls.enable = true;
+        purescriptls.package = null;
+
+        rust_analyzer.enable = true;
+        rust_analyzer.installRustc = false;
+        rust_analyzer.installCargo = false;
+
+        gopls.enable = true;
+
         hls.enable = true;
         hls.installGhc = false;
         # svelte.enable = true;
         # aiken.enable = true;
-        # ts_ls.enable = true;
+        ts_ls.enable = true;
       };
+    };
+
+    plugins.lsp-format = {
+      enable = true;
+      lspServersToEnable = ["purescriptls"];
     };
 }

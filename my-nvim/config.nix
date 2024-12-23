@@ -1,3 +1,4 @@
+{pkgs,...}:
 {
  imports = [./cmp.nix ./lsp.nix];
   plugins = {
@@ -145,5 +146,6 @@
   extraConfigLuaPost="
     vim.opt.showtabline = 0
   ";
+  extraPlugins = with pkgs.vimPlugins; [purescript-vim];
 }
 
