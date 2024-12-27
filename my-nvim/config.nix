@@ -125,15 +125,14 @@
 
     tabstop=2;
     shiftwidth=2;
-    softtabstop=0;
+    softtabstop=2;
     expandtab=true;
-    smarttab=true;
 
     clipboard = {
-      providers = {
-        wl-copy.enable = true; # Wayland 
-        xsel.enable = true; # For X11
-      };
+      # providers = {
+      #   wl-copy.enable = true; # Wayland 
+      #   xsel.enable = true; # For X11
+      # };
       register = "unnamedplus";
     };
 
@@ -145,7 +144,11 @@
   };
   extraConfigLuaPost="
     vim.opt.showtabline = 0
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
   ";
-  extraPlugins = with pkgs.vimPlugins; [purescript-vim];
+  extraConfigVim="
+    set clipboard+=unnamedplus
+  ";
+  extraPlugins = with pkgs.vimPlugins; [purescript-vim completion-nvim];
 }
 
