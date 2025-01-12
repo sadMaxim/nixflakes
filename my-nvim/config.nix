@@ -110,6 +110,11 @@
     key = "gd";
     action = ":lua vim.lsp.buf.definition()<CR>";
    }
+   {
+    mode = "n"; 
+    key = "act";
+    action = ":lua vim.lsp.buf.code_action()<CR>";
+   }
    # {
    #  mode = "n"; 
    #  key = "<C-m>";
@@ -149,6 +154,6 @@
   extraConfigVim="
     set clipboard+=unnamedplus
   ";
-  extraPlugins = with pkgs.vimPlugins; [purescript-vim completion-nvim];
+  extraPlugins = with pkgs.vimPlugins; [purescript-vim completion-nvim haskell-tools-nvim];
 }
 

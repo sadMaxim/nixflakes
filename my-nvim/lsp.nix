@@ -17,8 +17,10 @@
 
         gopls.enable = true;
 
-        hls.enable = true;
-        hls.installGhc = false;
+        # haskell
+        # hls.enable = true;
+        # hls.installGhc = false;
+
         # svelte.enable = true;
         # aiken.enable = true;
         ts_ls.enable = true;
