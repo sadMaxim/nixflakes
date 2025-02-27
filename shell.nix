@@ -7,7 +7,7 @@
       devShells.default = pkgs.mkShell {
         buildInputs = with pkgs; [
           # packages for development in python
-          nixd
+          # nixd
         ];
         shellHook = ''
         '';

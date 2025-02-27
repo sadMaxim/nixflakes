@@ -6,10 +6,11 @@
         pyright.enable = true;
         pyright.package = null;
 
-        nixd.enable = true;
+        # nixd.enable = true;
 
         purescriptls.enable = true;
         purescriptls.package = null;
+        purescriptls.filetypes = ["dhall" "purescript"];
 
         rust_analyzer.enable = true;
         rust_analyzer.installRustc = false;
@@ -18,10 +19,10 @@
         gopls.enable = true;
 
         # haskell
-        # hls.enable = true;
-        # hls.installGhc = false;
+        hls.enable = true;
+        hls.installGhc = false;
 
-        # svelte.enable = true;
+        svelte.enable = true;
         # aiken.enable = true;
         ts_ls.enable = true;
       };

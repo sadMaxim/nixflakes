@@ -115,11 +115,6 @@
     key = "act";
     action = ":lua vim.lsp.buf.code_action()<CR>";
    }
-   # {
-   #  mode = "n"; 
-   #  key = "<C-m>";
-   #  action = "gcc";
-   # }
   ];
 
   globalOpts = {
@@ -153,7 +148,8 @@
   ";
   extraConfigVim="
     set clipboard+=unnamedplus
+    set tags+=./tags,tags,./.git/tags
   ";
-  extraPlugins = with pkgs.vimPlugins; [purescript-vim completion-nvim haskell-tools-nvim];
+  extraPlugins = with pkgs.vimPlugins; [purescript-vim completion-nvim ];
 }
 
